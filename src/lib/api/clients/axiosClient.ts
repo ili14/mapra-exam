@@ -9,7 +9,5 @@ const axiosClient = axios.create({
   },
 });
 
-// Add interceptors if needed
-// axiosClient.interceptors.request.use(...);
 
 export default axiosClient;
