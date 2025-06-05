@@ -32,37 +32,48 @@ function ProfileForm() {
       profileImage: data.profileImage ? data.profileImage[0] : null,
     });
     alert("فرم با موفقیت ارسال شد! (داده‌ها در کنسول قابل مشاهده هستند)");
-  },[]);
+  }, []);
 
-  const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // ایجاد پیش نمایش تصویر
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  },[]);
+  const handleImageChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewImage(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    },
+    []
+  );
 
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto", padding: "20px", fontFamily: "Arial" }}>
-      <ExcelToJsonConverter/>
-      <h2 style={{ textAlign: "center", color: "#333" }}>فرم پروفایل</h2>
+    <div className="max-w-xl mx-auto p-5 font-sans">
+      <ExcelToJsonConverter />
+      <h2 className="text-center text-gray-800 text-xl font-semibold mb-5">
+        فرم پروفایل
+      </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* فیلد نام */}
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="name" style={{ display: "block", marginBottom: "5px" }}>
+        <div className="mb-4">
+          <label htmlFor="name" className="block mb-1 font-medium">
             نام کامل:
           </label>
-          <input id="name" type="text" {...register("name", { required: "نام الزامی است" })} style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }} />
-          {errors.name && <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>{errors.name.message}</p>}
+          <input
+            id="name"
+            type="text"
+            {...register("name", { required: "نام الزامی است" })}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          />
+          {errors.name && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.name.message}
+            </p>
+          )}
         </div>
 
-        {/* فیلد ایمیل */}
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>
+        <div className="mb-4">
+          <label htmlFor="email" className="block mb-1 font-medium">
             ایمیل:
           </label>
           <input
@@ -75,20 +86,35 @@ function ProfileForm() {
                 message: "ایمیل معتبر وارد کنید",
               },
             })}
-            style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
           />
-          {errors.email && <p style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
         {/* فیلد عکس پروفایل */}
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="profileImage" style={{ display: "block", marginBottom: "5px" }}>
+        <div className="mb-4">
+          <label htmlFor="profileImage" className="block mb-1 font-medium">
             عکس پروفایل:
           </label>
-          <input id="profileImage" type="file" accept="image/*" {...register("profileImage")} onChange={handleImageChange} style={{ width: "100%", padding: "8px" }} />
+          <input
+            id="profileImage"
+            type="file"
+            accept="image/*"
+            {...register("profileImage")}
+            onChange={handleImageChange}
+            className="w-full py-2"
+          />
           {previewImage && (
-            <div style={{ marginTop: "10px" }}>
-              <img src={previewImage} alt="پیش نمایش تصویر" style={{ maxWidth: "100px", maxHeight: "100px", borderRadius: "50%" }} />
+            <div className="mt-3">
+              <img
+                src={previewImage}
+                alt="پیش نمایش تصویر"
+                className="w-24 h-24 rounded-full object-cover"
+              />
             </div>
           )}
         </div>
@@ -96,16 +122,7 @@ function ProfileForm() {
         {/* دکمه ارسال */}
         <button
           type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
+          className="w-full py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition"
         >
           ارسال
         </button>
